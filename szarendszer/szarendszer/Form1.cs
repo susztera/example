@@ -20,7 +20,7 @@ namespace szarendszer
         private void button1_Click(object sender, EventArgs e)
         {
             const string szamjegyek = "0123456789abcdefghijklmnopqrstuvwxyz";
-            int originalNum = int.Parse(onB.Text);
+            int originalNum;
             int originalNSys = int.Parse(ocB.Text);
             int converterNSys = int.Parse(ncB.Text);
             string convertedNum = "";
@@ -39,10 +39,22 @@ namespace szarendszer
                 for (int i = 0; i < onB.Text.Length; i++)
                 {
                     temp *= originalNSys;
+                if (szamjegyek.IndexOf(onB.Text[i])>=originalNSys)
+                {
+                    nnB.Text = "Te nem vagy normális!";
+                    return;
+                }
                     temp += szamjegyek.IndexOf(onB.Text[i]);
                     //temp += (int.Parse(temps[i].ToString()) * Convert.ToInt32(Math.Pow(converterNSys,i)));
                 }
-                convertedNum = temp.ToString();
+                originalNum = temp;
+            while (originalNum != 0)
+            {
+                int leftover = originalNum % converterNSys;
+                convertedNum = szamjegyek[leftover] + convertedNum;
+                originalNum /= converterNSys;
+            }
+            
             /*}
             else
             {
